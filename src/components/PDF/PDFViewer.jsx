@@ -186,6 +186,33 @@ export function PDFViewer() {
         }
     };
 
+    // Keyboard Navigation
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!numPages) return;
+
+            // Ignore if focus is in an input or textarea
+            if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+
+            // Check if we are in the "draw" tool or similar? Maybe not needed as long as we aren't typing text.
+
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const newPage = Math.max(1, (activePageRef.current || currentPage || 1) - 1);
+                scrollToPage(newPage);
+                setActivePage(newPage);
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const newPage = Math.min(numPages, (activePageRef.current || currentPage || 1) + 1);
+                scrollToPage(newPage);
+                setActivePage(newPage);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [numPages, currentPage]); // Dependency on numPages and currentPage/activePageRef logic handled via ref in handler if possible, but simple re-bind is fine.
+
     // Snapshot Listener for LLM Generation
     const { snapshotRequest, generateCardsFromImage } = useAppStore();
 

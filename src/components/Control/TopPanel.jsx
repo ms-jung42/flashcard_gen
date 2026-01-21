@@ -16,8 +16,8 @@ export function TopPanel() {
     return (
         <div className="flex items-center gap-4">
             {/* Model Selection */}
-            <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-muted-foreground hidden md:inline">Model:</span>
+            <div className="flex items-center gap-1 md:gap-2">
+                <span className="text-xs font-medium text-muted-foreground hidden lg:inline">Model:</span>
                 <select
                     value={llmConfig.backend}
                     onChange={(e) => {

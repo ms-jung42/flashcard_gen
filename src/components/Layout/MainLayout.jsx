@@ -11,7 +11,7 @@ export function MainLayout({ children }) {
     // Actually, Layout wraps everything. The content decides what to show.
 
     return (
-        <div className="flex flex-col md:flex-row h-screen w-screen overflow-hidden bg-background text-foreground">
+        <div className="flex flex-col md:flex-row h-screen md:h-screen w-screen overflow-hidden bg-background text-foreground" style={{ height: '100dvh' }}>
             <Sidebar />
 
             {/* Main Content Area */}

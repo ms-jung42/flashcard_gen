@@ -501,10 +501,10 @@ export function PDFViewer() {
                 </div>
             </div>
 
-            {/* FAB */}
+            {/* FAB - Hidden on Mobile */}
             {
                 (selectedPage || isProcessing) && (
-                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
+                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 hidden md:block">
                         <button
                             disabled={isProcessing || !pdfDocument}
                             onClick={() => selectedPage && handlePageProcess(selectedPage)}

@@ -241,7 +241,7 @@ export function Settings() {
                                 </div>
 
                                 {/* Custom Palette Editor */}
-                                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 flex gap-4 items-center overflow-x-auto">
+                                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 flex gap-4 items-center flex-wrap">
                                     <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mr-2 shrink-0">Custom</span>
                                     {([0, 1, 2, 3, 4]).map((index) => (
                                         <div key={index} className="flex flex-col items-center gap-1 group">

@@ -273,7 +273,7 @@ const ContentArea = ({ label, value, images = [], onCommit, onAddImage, onRemove
     };
 
     return (
-        <div className={cn("flex flex-col flex-1 min-h-[80px] relative group/field", className)}>
+        <div className={cn("flex flex-col flex-1 min-h-[60px] relative group/field", className)}>
             {label && <span className="text-[10px] uppercase font-bold text-muted-foreground mb-1 select-none">{label}</span>}
 
             {/* Text Input */}
@@ -544,7 +544,7 @@ export function Flashcard({ card, onUpdate, onDelete }) {
                         </>
                     ) : (
                         <>
-                            <div className="p-3 bg-white dark:bg-transparent">
+                            <div className="p-3 bg-white dark:bg-transparent min-h-[60px]">
                                 <ContentArea
                                     label="Front"
                                     value={isEditing ? (editValues.front || '') : card.front}

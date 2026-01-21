@@ -56,19 +56,12 @@ export function SplitView({ left, right, className, ratio = "2:3" }) {
   return (
     <div className={cn("flex flex-col md:flex-row h-full w-full", className)}>
       <div
-        style={{ width: `${leftWidth}%` }}
-        className="md:h-full h-1/2 w-full md:w-auto relative overflow-hidden md:block flex-1"
+        className="md:h-full h-1/2 w-full md:w-[var(--split-width)] relative overflow-hidden flex-1 md:flex-none"
+        style={{ '--split-width': `${leftWidth}%` }}
       >
-        {/* On mobile, we override width to w-full (via class w-full) and height to flex-1 or h-1/2 */}
-        {/* Wait, inline style width overrides class width. We need to unset it on mobile or use a media query for style? */}
-        {/* Style object doesn't support media queries. We must conditionally apply style or use !w-full in class? */}
-        {/* Better approach: Use a resize hook that detects mobile, or just use css variable? */}
-        {/* Simplest: Use className with !w-full on mobile. */}
-        <div className="h-full w-full md:w-[var(--split-width)]" style={{ '--split-width': `${leftWidth}%` }}>
-          {/* Actually, let's keep it simple. If we use !w-full on mobile, it works. */}
-          <div className="h-full w-full">
-            {left}
-          </div>
+        {/* Inner content wrapper */}
+        <div className="h-full w-full">
+          {left}
         </div>
       </div>
 
@@ -76,7 +69,7 @@ export function SplitView({ left, right, className, ratio = "2:3" }) {
       <div
         onMouseDown={startDragging}
         className={cn(
-          "hidden md:flex w-2 bg-border hover:bg-primary/50 cursor-col-resize items-center justify-center z-50 transition-colors",
+          "hidden md:flex w-2 bg-border hover:bg-primary/50 cursor-col-resize items-center justify-center z-50 transition-colors shrink-0",
           isDragging && "bg-primary"
         )}
       >
@@ -87,10 +80,10 @@ export function SplitView({ left, right, className, ratio = "2:3" }) {
       <div className="md:hidden h-2 w-full bg-border shrink-0" />
 
       <div
-        style={{ width: `${100 - leftWidth}%` }}
-        className="md:h-full h-1/2 w-full md:w-auto relative overflow-hidden bg-secondary/30 md:block flex-1"
+        className="md:h-full h-1/2 w-full md:flex-1 relative overflow-hidden bg-secondary/30 flex-1"
       >
-        <div className="h-full w-full md:w-[var(--split-remaining)]" style={{ '--split-remaining': `${100 - leftWidth}%` }}>
+        {/* Right panel takes remaining space on desktop via flex-1 (since left is fixed width) */}
+        <div className="h-full w-full">
           {right}
         </div>
       </div>

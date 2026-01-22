@@ -50,7 +50,12 @@ export const exportProjectZip = async (cards, pdfName, fullStoreState) => {
             newCard.frontImagePaths = c.frontImages.map((b64, idx) => {
                 const blob = base64ToBlob(b64);
                 if (!blob) return null;
-                const filename = `img_${c.id}_f_${idx}.png`; // Simplified name
+
+                // Detect Extension
+                const type = b64.split(';')[0].split('/')[1];
+                const ext = type === 'jpeg' ? 'jpg' : type;
+
+                const filename = `img_${c.id}_f_${idx}.${ext}`;
                 assetsFolder.file(filename, blob);
                 return `assets/${filename}`;
             }).filter(Boolean);
@@ -61,7 +66,12 @@ export const exportProjectZip = async (cards, pdfName, fullStoreState) => {
             newCard.backImagePaths = c.backImages.map((b64, idx) => {
                 const blob = base64ToBlob(b64);
                 if (!blob) return null;
-                const filename = `img_${c.id}_b_${idx}.png`;
+
+                // Detect Extension
+                const type = b64.split(';')[0].split('/')[1];
+                const ext = type === 'jpeg' ? 'jpg' : type;
+
+                const filename = `img_${c.id}_b_${idx}.${ext}`;
                 assetsFolder.file(filename, blob);
                 return `assets/${filename}`;
             }).filter(Boolean);

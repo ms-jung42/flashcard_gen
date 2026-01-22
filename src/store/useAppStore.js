@@ -726,6 +726,7 @@ export const useAppStore = create(subscribeWithSelector((set, get) => ({
 })));
 
 // Auto-Save Subscription (Debounced)
+// Auto-Save Subscription (Metadata - Debounced)
 let saveTimeout;
 useAppStore.subscribe(
     (state) => ({
@@ -733,27 +734,40 @@ useAppStore.subscribe(
         annotations: state.annotations,
         currentPage: state.currentPage,
         stats: state.stats,
-        pdfFile: state.pdfFile,
+        // pdfFile: state.pdfFile, // REMOVED from frequent updates
         prompts: state.prompts,
-        promptsModified: state.promptsModified
+        promptsModified: state.promptsModified,
+        // Need the name to know WHERE to save, but not the blob
+        pdfName: state.pdfFile ? state.pdfFile.name : null
     }),
-    (state) => {
-        if (!state.pdfFile) return;
+    (data) => {
+        if (!data.pdfName) return;
 
         clearTimeout(saveTimeout);
         saveTimeout = setTimeout(() => {
-            saveProject(state.pdfFile.name, {
-                cards: state.cards,
-                annotations: state.annotations,
-                currentPage: state.currentPage,
-                stats: state.stats,
-                prompts: state.prompts,
-                promptsModified: state.promptsModified,
-                pdfFile: state.pdfFile // Save the Blob!
+            saveProject(data.pdfName, {
+                cards: data.cards,
+                annotations: data.annotations,
+                currentPage: data.currentPage,
+                stats: data.stats,
+                prompts: data.prompts,
+                promptsModified: data.promptsModified,
+                // pdfFile: ... // Do NOT pass the blob here
             });
         }, 2000); // 2s debounce
     },
     { equalityFn: (a, b) => JSON.stringify(a) === JSON.stringify(b) }
+);
+
+// Auto-Save Subscription (PDF Blob - Triggered on File Load)
+useAppStore.subscribe(
+    (state) => state.pdfFile,
+    (pdfFile) => {
+        if (pdfFile && pdfFile.name) {
+            console.log("[Store] New PDF loaded, saving blob...");
+            saveProject(pdfFile.name, { pdfFile }); // SAVE BLOB ONCE
+        }
+    }
 );
 
 // Init Global Data

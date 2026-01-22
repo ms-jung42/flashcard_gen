@@ -14,7 +14,7 @@ export function Settings() {
     } = useAppStore();
 
     return (
-        <div className="flex-1 h-full overflow-y-auto bg-slate-50 dark:bg-slate-950 p-8 md:p-12">
+        <div className="flex-1 h-full overflow-y-auto bg-slate-50 dark:bg-slate-950 p-4 md:p-12">
             <div className="max-w-3xl mx-auto space-y-10">
 
                 <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 pb-4 border-b">Settings</h1>

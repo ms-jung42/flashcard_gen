@@ -277,8 +277,8 @@ export function PDFViewer() {
                     });
                 }
 
-                // Export High Res
-                const base64 = canvas.toDataURL('image/jpeg', 0.95); // High quality JPEG
+                // Export High Res WebP
+                const base64 = canvas.toDataURL('image/webp', 0.8); // Optimized WebP
 
                 // 4. Extract Text Layer
                 let textContent = "";
@@ -366,44 +366,72 @@ export function PDFViewer() {
     return (
         <div className="h-full flex flex-col bg-slate-100 dark:bg-black border-r dark:border-slate-800 relative group" onMouseEnter={() => currentPage && setActivePage(currentPage)}>
             {/* Header */}
-            <div className="h-12 border-b bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 flex items-center px-4 justify-between gap-2 shadow-sm z-30 relative transition-colors">
-                <div className="flex items-center gap-1">
-                    <div className="p-1.5 bg-red-100 dark:bg-red-900/30 text-red-600 rounded-md mr-2">
-                        <FileText size={16} />
-                    </div>
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[150px] truncate" title={pdfFile?.name}>
-                        {pdfFile ? pdfFile.name : 'No PDF Loaded'}
-                    </span>
-                    {/* Close PDF Button */}
+            <div className="h-auto min-h-[48px] border-b bg-background/95 backdrop-blur flex flex-wrap items-center justify-between px-2 py-1 gap-y-2 z-20 shadow-sm sticky top-0">
+                <div className="flex items-center gap-1 md:gap-2">
                     <button
-                        onClick={() => setPdfFile(null)}
-                        className="p-1 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors ml-2"
+                        onClick={goToPrevPage}
+                        disabled={selectedPage <= 1}
+                        className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md disabled:opacity-30 transition-colors"
+                        title="Previous Page (Left Arrow)"
+                    >
+                        <ChevronLeft size={18} />
+                    </button>
+                    <span className="text-sm font-medium w-16 text-center tabular-nums">
+                        <input
+                            type="number"
+                            min={1}
+                            max={numPages || 1}
+                            value={pageInput}
+                            onChange={(e) => setPageInput(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handlePageSubmit();
+                                    e.currentTarget.blur();
+                                }
+                            }}
+                            onBlur={handlePageSubmit}
+                            className="w-10 text-center bg-transparent border-none p-0 focus:ring-0 appearance-none m-0"
+                        />
+                        <span className="text-muted-foreground">/ {numPages || '--'}</span>
+                    </span>
+                    <button
+                        onClick={goToNextPage}
+                        disabled={selectedPage >= numPages}
+                        className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md disabled:opacity-30 transition-colors"
+                        title="Next Page (Right Arrow)"
+                    >
+                        <ChevronRight size={18} />
+                    </button>
+
+                    <button
+                        onClick={() => clearPdf()}
+                        className="p-1 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors ml-1 md:ml-2"
                         title="Close PDF"
                     >
                         <X size={16} />
                     </button>
-                    <div className="w-px h-6 bg-border mx-2"></div>
+                    <div className="w-px h-6 bg-border mx-1 md:mx-2"></div>
                     <button onClick={() => setIsOutlineOpen(!isOutlineOpen)} className={cn("p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors", isOutlineOpen && "text-primary bg-primary/10")} title="Table of Contents" disabled={!outline}><Bookmark size={18} /></button>
                 </div>
 
-                <div className="flex items-center gap-1">
-                    <button onClick={() => handleScaleChange(Math.max(0.5, scale - 0.1))} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded"><ZoomOut size={18} /></button>
-                    <span className="text-xs font-mono w-12 text-center text-slate-600 dark:text-slate-400">{(scale * 100).toFixed(0)}%</span>
-                    <button onClick={() => handleScaleChange(Math.min(2.0, scale + 0.1))} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded"><ZoomIn size={18} /></button>
+                <div className="flex items-center gap-0.5 md:gap-1 ml-auto">
+                    <button onClick={() => handleScaleChange(Math.max(0.5, scale - 0.1))} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded"><ZoomOut size={16} className="md:w-[18px] md:h-[18px]" /></button>
+                    <span className="text-xs font-mono w-8 md:w-12 text-center text-slate-600 dark:text-slate-400">{(scale * 100).toFixed(0)}%</span>
+                    <button onClick={() => handleScaleChange(Math.min(2.0, scale + 0.1))} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded"><ZoomIn size={16} className="md:w-[18px] md:h-[18px]" /></button>
                     <div className="w-px h-6 bg-border mx-1"></div>
                     <button
                         onClick={() => setTool(tool === 'draw' ? 'cursor' : 'draw')}
                         className={cn("p-1.5 rounded transition-all", tool === 'draw' ? "bg-yellow-100 text-yellow-600 ring-1 ring-yellow-400" : "hover:bg-slate-100 dark:hover:bg-slate-800 text-muted-foreground")}
                         title="Highlighter"
                     >
-                        <Highlighter size={18} />
+                        <Highlighter size={16} className="md:w-[18px] md:h-[18px]" />
                     </button>
                     <button
                         onClick={() => setTool(tool === 'snapshot' ? 'cursor' : 'snapshot')}
                         className={cn("p-1.5 rounded transition-all", tool === 'snapshot' ? "bg-blue-100 text-blue-600 ring-1 ring-blue-400" : "hover:bg-slate-100 dark:hover:bg-slate-800 text-muted-foreground")}
                         title="Snapshot Tool (Drag to copy)"
                     >
-                        <Camera size={18} />
+                        <Camera size={16} className="md:w-[18px] md:h-[18px]" />
                     </button>
                 </div>
             </div>

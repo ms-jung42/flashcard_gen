@@ -326,52 +326,52 @@ export function CardGraph() {
                     </div>
                 </div>
             ) : (
-                <div className="h-20 border-t bg-background/80 backdrop-blur-md flex items-center justify-center gap-2 md:gap-4 px-2 md:px-8 sticky bottom-0 z-40">
-                    <div className="flex gap-2">
+                <div className="h-14 md:h-20 border-t bg-background/80 backdrop-blur-md flex items-center justify-center gap-2 md:gap-4 px-2 md:px-8 sticky bottom-0 z-40 transition-all duration-300">
+                    <div className="flex gap-1 md:gap-2">
                         <button
                             onClick={() => handleManualCreate('basic')}
-                            className="flex items-center gap-2 bg-secondary text-secondary-foreground px-3 py-2 md:px-4 md:py-2.5 rounded-l-full font-medium hover:bg-secondary/80 transition-colors shadow-sm active:scale-95 text-xs md:text-sm border-r border-border"
+                            className="flex items-center gap-1.5 md:gap-2 bg-secondary text-secondary-foreground px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-l-full font-medium hover:bg-secondary/80 transition-colors shadow-sm active:scale-95 text-[10px] md:text-sm border-r border-border"
                             title="Add a Basic card (Front/Back)"
                         >
-                            <FilePlus size={14} className="md:w-4 md:h-4" />
+                            <FilePlus size={14} className="w-3.5 h-3.5 md:w-4 md:h-4" />
                             Basic
                         </button>
                         <button
                             onClick={() => handleManualCreate('cloze')}
-                            className="flex items-center gap-2 bg-secondary text-secondary-foreground px-3 py-2 md:px-4 md:py-2.5 rounded-r-full font-medium hover:bg-secondary/80 transition-colors shadow-sm active:scale-95 text-xs md:text-sm"
+                            className="flex items-center gap-1.5 md:gap-2 bg-secondary text-secondary-foreground px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-r-full font-medium hover:bg-secondary/80 transition-colors shadow-sm active:scale-95 text-[10px] md:text-sm"
                             title="Add a Cloze card (Fill in the blank)"
                         >
-                            <FileType size={14} className="md:w-4 md:h-4" />
+                            <FileType size={14} className="w-3.5 h-3.5 md:w-4 md:h-4" />
                             Cloze
                         </button>
                     </div>
 
-                    <div className="h-6 md:h-8 w-px bg-border mx-1 md:mx-2"></div>
+                    <div className="h-5 md:h-8 w-px bg-border mx-0.5 md:mx-2"></div>
 
                     <button
                         onClick={handleGenerateMore}
                         disabled={(!activePage && !currentPage) || !(groupedCards[activePage || currentPage]?.length > 0)}
-                        className="flex items-center gap-2 bg-[var(--primary-soft)] text-primary px-3 py-2 md:px-5 md:py-2.5 rounded-full font-medium hover:opacity-90 transition-all shadow-md active:scale-95 text-xs md:text-sm mr-auto disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                        className="flex items-center gap-1.5 md:gap-2 bg-[var(--primary-soft)] text-primary px-3 py-1.5 md:px-5 md:py-2.5 rounded-full font-medium hover:opacity-90 transition-all shadow-md active:scale-95 text-[10px] md:text-sm mr-auto disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                         title={!(groupedCards[activePage || currentPage]?.length > 0) ? "No cards on this page yet" : "Ask AI to generate more cards from this page"}
                     >
-                        <BrainCircuit size={14} className="md:w-4 md:h-4" />
+                        <BrainCircuit size={14} className="w-3.5 h-3.5 md:w-4 md:h-4" />
                         Generate More
                     </button>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 md:gap-2">
                         <button
                             onClick={handleImportClick}
-                            className="flex items-center gap-2 bg-secondary text-secondary-foreground px-3 py-2 md:px-4 md:py-2.5 rounded-l-full font-medium hover:bg-secondary/80 transition-colors shadow-sm active:scale-95 text-xs md:text-sm border-r border-border"
+                            className="flex items-center gap-1.5 md:gap-2 bg-secondary text-secondary-foreground px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-l-full font-medium hover:bg-secondary/80 transition-colors shadow-sm active:scale-95 text-[10px] md:text-sm border-r border-border"
                             title="Import project from ZIP"
                         >
-                            <Upload size={14} className="md:w-4 md:h-4" />
+                            <Upload size={14} className="w-3.5 h-3.5 md:w-4 md:h-4" />
                             <span className="hidden md:inline">Import</span>
                         </button>
                         <button
                             onClick={handleExport}
-                            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 md:px-6 md:py-2.5 rounded-r-full font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 active:scale-95 text-xs md:text-sm"
+                            className="flex items-center gap-1.5 md:gap-2 bg-primary text-primary-foreground px-3 py-1.5 md:px-6 md:py-2.5 rounded-r-full font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 active:scale-95 text-[10px] md:text-sm"
                         >
-                            <Download size={14} className="md:w-4 md:h-4" />
+                            <Download size={14} className="w-3.5 h-3.5 md:w-4 md:h-4" />
                             <span className="hidden md:inline">Export</span>
                         </button>
                     </div>

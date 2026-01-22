@@ -16,7 +16,7 @@ export function TopPanel() {
     return (
         <div className="flex items-center gap-4">
             {/* Model Selection */}
-            <div className="flex items-center gap-1 md:gap-2">
+            <div className="flex items-center gap-1 md:gap-2 max-w-[120px] md:max-w-none">
                 <span className="text-xs font-medium text-muted-foreground hidden lg:inline">Model:</span>
                 <select
                     value={llmConfig.backend}
@@ -24,7 +24,7 @@ export function TopPanel() {
                         const val = e.target.value;
                         setLlmConfig({ backend: val });
                     }}
-                    className="h-8 text-xs rounded-md border bg-background px-2 focus:ring-1 focus:ring-primary"
+                    className="h-8 text-xs rounded-md border bg-background px-1 md:px-2 focus:ring-1 focus:ring-primary w-full md:w-auto text-ellipsis"
                 >
                     <option value="mock">Mock Backend (Free)</option>
                     <option value="gemini">{llmConfig.models?.gemini?.name || 'Gemini'}</option>
